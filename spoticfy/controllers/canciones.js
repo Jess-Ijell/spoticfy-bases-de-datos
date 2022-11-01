@@ -1,60 +1,31 @@
 const conn = require("../db");
 
 const getCanciones = (_, res) => {
-    // Completar con la consulta que devuelve todas las canciones
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la siguiente forma:
-    /*
-        [
-            {
-                "id": "Id de la canción",
-                "nombre": "Nombre de la canción",
-                "nombre_artista": "Id del artista",
-                "nombre_album": "Id del album",
-                "duracion": "Duración de la canción",
-                "reproducciones": "Reproducciones de la canción"
-            },
-            {
-                "id": "Id de la canción",
-                "nombre": "Nombre de la canción",
-                "nombre_artista": "Id del artista",
-                "nombre_album": "Id del album",
-                "duracion": "Duración de la canción",
-                "reproducciones": "Reproducciones de la canción"
-            },
-            ...
-        ]
-    */
+    connection.query("SELECT * FROM canciones", (err, results) => {
+        if (err) return console.error(err.message);
+        res.json(results);
+    });
 };
 
 const getCancion = (req, res) => {
-    // Completar con la consulta que devuelve una canción
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la siguiente forma:
-    /*
-        {
-            "id": "Id de la canción",
-            "nombre": "Nombre de la canción",
-            "nombre_artista": "Id del artista",
-            "nombre_album": "Id del album",
-            "duracion": "Duración de la canción",
-            "reproducciones": "Reproducciones de la canción"
-        }
-    */
+    connection.query("SELECT * FROM albums WHERE id = ", [parseInt(req.params.id)], (err, results) => {
+        if (err) return console.error(err.message);
+        if(results.length === 0) return res.status(404).json({msg: "User not found"});
+        res.json(results[0]);
+    });
 };
 
+
+//REVISAR
 const createCancion = (req, res) => {
-    // Completar con la consulta que crea una canción
-    // Recordar que los parámetros de una consulta POST se encuentran en req.body
-    // Deberían recibir los datos de la siguiente forma:
-    /*
-        {
-            "nombre": "Nombre de la canción",
-            "album": "Id del album",
-            "duracion": "Duración de la canción",
-        }
-    */
-    // (Reproducciones se inicializa en 0)
+    connection.query("INSERT INTO albumes (nombre, album, duracion), VALUES (?, ?)", [req.body.nombre, req.body.album, parseInt(req.body.duracion)], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json({
+            id: results.insertId,
+            msg: "cancion agegada",
+        });
+    });
+    // (Reproducciones se inicializa en 0) ???
 };
 
 const updateCancion = (req, res) => {
@@ -72,8 +43,14 @@ const updateCancion = (req, res) => {
 };
 
 const deleteCancion = (req, res) => {
-    // Completar con la consulta que elimina una canción
-    // Recordar que los parámetros de una consulta DELETE se encuentran en req.params
+    connection.query("DELETE FROM albums WHERE nombre = ?", [req.body.nombre], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json({
+            //REVISAR
+            id: results.removeId,
+            msg: "Album eliminado",
+        });
+    });
 };
 
 const reproducirCancion = (req, res) => {

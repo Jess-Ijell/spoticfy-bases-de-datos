@@ -1,7 +1,17 @@
 const mysql = require("mysql2");
 
 const conn = mysql.createConnection({
-    // Completar con los datos de la conexión
+    host: "localhost",
+    user: "rrot",
+    password: "rootroot",
+    database: "spoticfy",
 });
 
-module.exports = conn;
+connection.connect((err) => {
+    if (err) {
+        console.error("Error conectándose: " + err);
+        return;
+    }
+
+    module.exports = conn;
+});

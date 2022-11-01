@@ -1,45 +1,28 @@
 const conn = require("../db");
 
 const getArtistas = (_, res) => {
-    // Completar con la consulta que devuelve todos los artistas
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la siguiente forma:
-    /*
-        [
-            {
-                "id": "Id del artista",
-                "nombre": "Nombre del artista"
-            },
-            {
-                "id": "Id del artista",
-                "nombre": "Nombre del artista"
-            },
-            ...
-        ]
-    */
+    connection.query("SELECT * FROM artistas", (err, results) => {
+        if (err) return console.error(err.message);
+        res.json(results);
+    });
 };
 
 const getArtista = (req, res) => {
-    // Completar con la consulta que devuelve un artista
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la siguiente forma:
-    /*
-        {
-            "id": "Id del artista",
-            "nombre": "Nombre del artista"
-        }
-    */
+    connection.query("SELECT * FROM artistas WHERE id = ? AND nombre = ?", [parseInt(req.params.id), req.params.nombre], (err, results) => {
+        if (err) return console.error(err.message);
+        if(results.length === 0) return res.status(404).json({msg: "User not found"});
+        res.json(results[0]);
+    });
 };
 
 const createArtista = (req, res) => {
-    // Completar con la consulta que crea un artista
-    // Recordar que los parámetros de una consulta POST se encuentran en req.body
-    // Deberían recibir los datos de la siguiente forma:
-    /*
-        {
-            "nombre": "Nombre del artista",
-        }
-    */
+    connection.query("INSERT INTO artistas (nombre), VALUES (?)", [req.body.nombre], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json({
+            id: results.insertId,
+            msg: "Artista agregado",
+        });
+    });
 };
 
 const updateArtista = (req, res) => {
@@ -54,14 +37,27 @@ const updateArtista = (req, res) => {
 };
 
 const deleteArtista = (req, res) => {
-    // Completar con la consulta que elimina un artista
-    // Recordar que los parámetros de una consulta DELETE se encuentran en req.params
+    connection.query("DELETE FROM artistas WHERE nombre = ?", [req.body.nombre], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json({
+            //REVISAR
+            id: results.removeId,
+            msg: "Artista eliminado",
+        });
+    });
 };
 
+
+//REVISAR
 const getAlbumesByArtista = (req, res) => {
-    // Completar con la consulta que devuelve las canciones de un artista 
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la misma forma que getAlbumes
+    connection.query("SELECT Id FROM aristas WHERE nombre = ?", [req.params.nombre], (err, idart) => {
+        if (err) return console.error(err.message);
+        res.send(idart);
+        connection.query("SELECT * FROM albumes WHERE artista = ?"), [parseInt(idart)], (err, results) => {
+            if (err) return console.error(err.message);
+            res.json(results);
+        }
+    });
 };
 
 const getCancionesByArtista = (req, res) => {

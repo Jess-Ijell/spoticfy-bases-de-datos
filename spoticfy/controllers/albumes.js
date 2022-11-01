@@ -1,49 +1,28 @@
 const conn = require("../db");
 
-const getAlbumes = (_, res) => {
-    // Completar con la consulta que devuelve todos los albumes
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la siguiente forma:
-    /*
-        [
-            {
-                "id": 1,
-                "nombre": "Nombre del album",
-                "nombre_artista": "Nombre del artista"
-            },
-            {
-                "id": 2,
-                "nombre": "Nombre del album",
-                "nombre_artista": "Nombre del artista"
-            },
-            ...
-        ]
-    */
+const getAlbumes = (_, res) => {    
+    connection.query("SELECT * FROM artistas", (err, results) => {
+        if (err) return console.error(err.message);
+        res.json(results);
+    });
 };
 
 const getAlbum = (req, res) => {
-    // Completar con la consulta que devuelve un album por id
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la siguiente forma:
-    /*
-        {
-            "id": 1,
-            "nombre": "Nombre del album",
-            "nombre_artista": "Nombre del artista"
-        }
-    */
+    connection.query("SELECT * FROM albums WHERE id = ", [parseInt(req.params.id)], (err, results) => {
+        if (err) return console.error(err.message);
+        if(results.length === 0) return res.status(404).json({msg: "User not found"});
+        res.json(results[0]);
+    });
 };
 
 const createAlbum = (req, res) => {
-    // Completar con la consulta que crea un album
-    // Recordar que los parámetros de una consulta POST se encuentran en req.body
-    // Deberían recbir los datos de la siguiente forma:
-    /*
-        {
-            "nombre": "Nombre del album",
-            "artista": "Id del artista"
-        }
-    */
+    connection.query("INSERT INTO albumes (nombre, artista), VALUES (?, ?)", [req.body.nombre, parseInt(req.body.artista)], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json({
+            id: results.insertId,
+            msg: "Album agregado",
+        });
+    });
 };
 
 const updateAlbum = (req, res) => {
@@ -59,8 +38,14 @@ const updateAlbum = (req, res) => {
 };
 
 const deleteAlbum = (req, res) => {
-    // Completar con la consulta que elimina un album
-    // Recordar que los parámetros de una consulta DELETE se encuentran en req.params
+    connection.query("DELETE FROM albums WHERE nombre = ?", [req.body.nombre], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json({
+            //REVISAR
+            id: results.removeId,
+            msg: "Album eliminado",
+        });
+    });
 };
 
 const getCancionesByAlbum = (req, res) => {
