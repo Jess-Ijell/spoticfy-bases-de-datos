@@ -49,9 +49,11 @@ const deleteAlbum = (req, res) => {
 };
 
 const getCancionesByAlbum = (req, res) => {
-    // Completar con la consulta que devuelve las canciones de un album
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la misma forma que getCanciones
+    connection.query("SELECT * FROM albums WHERE id = ", [parseInt(req.params.id)], (err, results) => {
+        if (err) return console.error(err.message);
+        if(results.length === 0) return res.status(404).json({msg: "User not found"});
+        res.json(results[0]);
+    });
 };
 
 module.exports = {

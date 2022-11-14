@@ -15,18 +15,32 @@ app.get("/", (_, res) => {
 /* ------------------- Rutas ------------------- */
 
 // Artistas
-// Completar con las rutas de artistas
-// Para acceder a cada funcion de artistas, se debe hacer de la siguiente forma:
-// artistas.getArtistas;
-// artistas.getArtista;
-// ...
+app.get("/artistas", artistas.getArtistas);
+
+app.get("/artistas", artistas.getArtista);
+
+app.post("/artistas", artistas.createArtista);
+
+app.post("/artistas", artistas.updateArtista);
+
+app.post("/artistas", artistas.deleteArtista);
+
+app.get("/artistas", artistas.getAlbumesByArtista);
+
+app.get("/artistas", artistas.getCancionesByArtista);
 
 // Albumes
-// Completar con las rutas de albumes
-// Para acceder a cada funcion de albumes, se debe hacer de la siguiente forma:
-// albumes.getAlbumes;
-// albumes.getAlbum;
-// ...
+app.get("/artistas", albumes.getAlbumes);
+
+app.get("/artistas", albumes.getAlbum);
+
+app.post("/artistas", albumes.createAlbum);
+
+app.post("/artistas", albumes.updateAlbum);
+
+app.post("/artistas", albumes.deleteAlbum);
+
+app.get("/artistas", albumes.getCancionesByAlbum);
 
 // Canciones
 // Completar con las rutas de canciones

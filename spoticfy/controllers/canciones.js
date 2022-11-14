@@ -18,28 +18,24 @@ const getCancion = (req, res) => {
 
 //REVISAR
 const createCancion = (req, res) => {
-    connection.query("INSERT INTO albumes (nombre, album, duracion), VALUES (?, ?)", [req.body.nombre, req.body.album, parseInt(req.body.duracion)], (err, results) => {
+    rep = 0;
+    connection.query("INSERT INTO albumes (nombre, album, duracion), VALUES (?, ?, ?)", [req.body.nombre, req.body.album, rep], (err, results) => {
         if (err) return console.error(err.message);
         res.json({
             id: results.insertId,
             msg: "cancion agegada",
         });
     });
-    // (Reproducciones se inicializa en 0) ???
 };
 
 const updateCancion = (req, res) => {
-    // Completar con la consulta que actualiza una canción
+    connection.query("UPDATE cancion WHERE nombre = ? AND id = ? AND duracion = ?", [req.body.nombre, req.body.id, parseInt(req.body.duracion)], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json({
+            //NO SÉ
+        });
+    }); 
     // Recordar que los parámetros de una consulta PUT se encuentran en req.body
-    // Deberían recibir los datos de la siguiente forma:
-    /*
-        {
-            "nombre": "Nombre de la canción",
-            "album": "Id del album",
-            "duracion": "Duración de la canción",
-        }
-    */
-    // (Reproducciones no se puede modificar con esta consulta)
 };
 
 const deleteCancion = (req, res) => {
@@ -54,6 +50,14 @@ const deleteCancion = (req, res) => {
 };
 
 const reproducirCancion = (req, res) => {
+    connection.query("UPDATE cancion WHERE nombre = ?", [req.params.nombre], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json({
+            id: results.insertId,
+            msg: "cancion reproducida",
+        });
+    }); 
+    // ACÁ DEBERÍA SEECCIONAR Y DESPUÉS UPDATEAR LAS REPRODUCCIONES???
     // Completar con la consulta que aumenta las reproducciones de una canción
     // En este caso es una consulta PUT, pero no recibe ningún parámetro en el body, solo en los params
 };

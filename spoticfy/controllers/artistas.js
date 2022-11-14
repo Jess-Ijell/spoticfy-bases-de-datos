@@ -50,7 +50,7 @@ const deleteArtista = (req, res) => {
 
 //REVISAR
 const getAlbumesByArtista = (req, res) => {
-    connection.query("SELECT Id FROM aristas WHERE nombre = ?", [req.params.nombre], (err, idart) => {
+    connection.query("SELECT id FROM aristas WHERE nombre = ?", [req.params.nombre], (err, idart) => {
         if (err) return console.error(err.message);
         res.send(idart);
         connection.query("SELECT * FROM albumes WHERE artista = ?"), [parseInt(idart)], (err, results) => {
@@ -61,10 +61,18 @@ const getAlbumesByArtista = (req, res) => {
 };
 
 const getCancionesByArtista = (req, res) => {
-    // Completar con la consulta que devuelve las canciones de un artista
-    // (tener en cuenta que las canciones están asociadas a un álbum, y los álbumes a un artista)
-    // Recordar que los parámetros de una consulta GET se encuentran en req.params
-    // Deberían devolver los datos de la misma forma que getCanciones
+    connection.query("SELECT id FROM aristas WHERE nombre = ?", [req.params.nombre], (err, idart) => {
+        if (err) return console.error(err.message);
+        res.send(idart);
+        connection.query("SELECT id FROM albumes WHERE artista = ?", [parseInt(idart)], (err, idalbum) => {
+            if (err) return console.error(err.message);
+            res.json(idalbum);
+            connection.query("SELECT * FROM canciones WHERE album = ?", [parseInt(idalbum)], (err, results) => {
+                if (err) return console.error(err.message);
+                res.json(results);
+            });
+        });
+    });
 };
 
 module.exports = {
