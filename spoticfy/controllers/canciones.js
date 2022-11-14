@@ -15,10 +15,8 @@ const getCancion = (req, res) => {
     });
 };
 
-
-//REVISAR
 const createCancion = (req, res) => {
-    rep = 0;
+    const rep = 0;
     connection.query("INSERT INTO albumes (nombre, album, duracion), VALUES (?, ?, ?)", [req.body.nombre, req.body.album, rep], (err, results) => {
         if (err) return console.error(err.message);
         res.json({
@@ -31,35 +29,30 @@ const createCancion = (req, res) => {
 const updateCancion = (req, res) => {
     connection.query("UPDATE cancion WHERE nombre = ? AND id = ? AND duracion = ?", [req.body.nombre, req.body.id, parseInt(req.body.duracion)], (err, results) => {
         if (err) return console.error(err.message);
-        res.json({
-            //NO SÉ
-        });
+        res.json(results)
     }); 
-    // Recordar que los parámetros de una consulta PUT se encuentran en req.body
 };
 
 const deleteCancion = (req, res) => {
     connection.query("DELETE FROM albums WHERE nombre = ?", [req.body.nombre], (err, results) => {
         if (err) return console.error(err.message);
-        res.json({
-            //REVISAR
-            id: results.removeId,
-            msg: "Album eliminado",
-        });
+        res.json(results);    
     });
 };
 
 const reproducirCancion = (req, res) => {
-    connection.query("UPDATE cancion WHERE nombre = ?", [req.params.nombre], (err, results) => {
+    reps = 0
+    connection.query("SELECT reproducciones WHERE nombre = ?", [req.params.nombre], (err, reps) => {
         if (err) return console.error(err.message);
         res.json({
-            id: results.insertId,
-            msg: "cancion reproducida",
+            reps = reps + 1,
         });
     }); 
-    // ACÁ DEBERÍA SEECCIONAR Y DESPUÉS UPDATEAR LAS REPRODUCCIONES???
-    // Completar con la consulta que aumenta las reproducciones de una canción
-    // En este caso es una consulta PUT, pero no recibe ningún parámetro en el body, solo en los params
+    
+    connection.query("UPDATE reproducción WHERE nombre = ?", [reps], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json(results);
+    });
 };
 
 module.exports = {

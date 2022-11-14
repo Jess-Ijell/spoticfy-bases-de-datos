@@ -21,7 +21,7 @@ app.get("/artistas", artistas.getArtista);
 
 app.post("/artistas", artistas.createArtista);
 
-app.post("/artistas", artistas.updateArtista);
+app.put("/artistas", artistas.updateArtista);
 
 app.post("/artistas", artistas.deleteArtista);
 
@@ -30,24 +30,31 @@ app.get("/artistas", artistas.getAlbumesByArtista);
 app.get("/artistas", artistas.getCancionesByArtista);
 
 // Albumes
-app.get("/artistas", albumes.getAlbumes);
+app.get("/albumes", albumes.getAlbumes);
 
-app.get("/artistas", albumes.getAlbum);
+app.get("/albumes", albumes.getAlbum);
 
-app.post("/artistas", albumes.createAlbum);
+app.post("/albumes", albumes.createAlbum);
 
-app.post("/artistas", albumes.updateAlbum);
+app.put("/albumes", albumes.updateAlbum);
 
-app.post("/artistas", albumes.deleteAlbum);
+app.post("/albumes", albumes.deleteAlbum);
 
-app.get("/artistas", albumes.getCancionesByAlbum);
+app.get("/albumes", albumes.getCancionesByAlbum);
 
 // Canciones
-// Completar con las rutas de canciones
-// Para acceder a cada funcion de canciones, se debe hacer de la siguiente forma:
-// canciones.getCanciones;
-// canciones.getCancion;
-// ...
+app.get("/canciones", canciones.getCanciones);
+
+app.get("/canciones", canciones.getCancion);
+
+app.post("/canciones", canciones.createCancion);
+
+app.post("/canciones", canciones.updateCancion);
+
+app.post("/canciones", canciones.deleteCancion);
+
+app.put("/canciones", canciones.reproducirCancion);
+
 
 app.listen(port, () => {
     console.log(`SpoTICfy API listening at http://localhost:${port}`);

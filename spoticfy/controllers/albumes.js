@@ -26,25 +26,16 @@ const createAlbum = (req, res) => {
 };
 
 const updateAlbum = (req, res) => {
-    // Completar con la consulta que actualiza un album
-    // Recordar que en este caso tienen parámetros en req.params (el id) y en req.body (los demás datos)
-    // Deberían recbir los datos de la siguiente forma:
-    /*
-        {
-            "nombre": "Nombre del album",
-            "artista": "Id del artista"
-        }
-    */
+    connection.query("UPDATE album WHERE id = ?", [req.params.i], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json(results)
+    }); 
 };
 
 const deleteAlbum = (req, res) => {
     connection.query("DELETE FROM albums WHERE nombre = ?", [req.body.nombre], (err, results) => {
         if (err) return console.error(err.message);
-        res.json({
-            //REVISAR
-            id: results.removeId,
-            msg: "Album eliminado",
-        });
+        res.json(results);
     });
 };
 

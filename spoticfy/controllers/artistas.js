@@ -26,53 +26,51 @@ const createArtista = (req, res) => {
 };
 
 const updateArtista = (req, res) => {
-    // Completar con la consulta que actualiza un artista
-    // Recordar que en este caso tienen parámetros en req.params (el id) y en req.body (los demás datos)
-    // Deberían recibir los datos de la siguiente forma:
-    /*
-        {
-            "nombre": "Nombre del artista"
-        }
-    */
+    connection.query("UPDATE cancion WHERE id = ?", [req.params.i], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json(results)
+    }); 
 };
 
 const deleteArtista = (req, res) => {
     connection.query("DELETE FROM artistas WHERE nombre = ?", [req.body.nombre], (err, results) => {
         if (err) return console.error(err.message);
-        res.json({
-            //REVISAR
-            id: results.removeId,
-            msg: "Artista eliminado",
-        });
+        res.json(results);
     });
 };
 
-
-//REVISAR
 const getAlbumesByArtista = (req, res) => {
+    const idart
+
     connection.query("SELECT id FROM aristas WHERE nombre = ?", [req.params.nombre], (err, idart) => {
         if (err) return console.error(err.message);
         res.send(idart);
-        connection.query("SELECT * FROM albumes WHERE artista = ?"), [parseInt(idart)], (err, results) => {
-            if (err) return console.error(err.message);
-            res.json(results);
-        }
     });
+
+    connection.query("SELECT * FROM albumes WHERE artista = ?"), [parseInt(idart)], (err, results) => {
+        if (err) return console.error(err.message);
+        res.json(results);
+    }
 };
 
 const getCancionesByArtista = (req, res) => {
+    const idart;
+    const idalbum;
+    
     connection.query("SELECT id FROM aristas WHERE nombre = ?", [req.params.nombre], (err, idart) => {
         if (err) return console.error(err.message);
         res.send(idart);
+        });
+
         connection.query("SELECT id FROM albumes WHERE artista = ?", [parseInt(idart)], (err, idalbum) => {
             if (err) return console.error(err.message);
             res.json(idalbum);
-            connection.query("SELECT * FROM canciones WHERE album = ?", [parseInt(idalbum)], (err, results) => {
-                if (err) return console.error(err.message);
-                res.json(results);
-            });
         });
-    });
+
+        connection.query("SELECT * FROM canciones WHERE album = ?", [parseInt(idalbum)], (err, results) => {
+            if (err) return console.error(err.message);
+            res.json(results);
+        });
 };
 
 module.exports = {
