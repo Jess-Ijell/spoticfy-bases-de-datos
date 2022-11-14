@@ -40,11 +40,12 @@ const deleteAlbum = (req, res) => {
 };
 
 const getCancionesByAlbum = (req, res) => {
-    connection.query("SELECT * FROM albums WHERE id = ", [parseInt(req.params.id)], (err, results) => {
+    connection.query("SELECT id FROM albums WHERE nombre = ?", [req.params.nombre], (err, idAlbum) => {
         if (err) return console.error(err.message);
-        if(results.length === 0) return res.status(404).json({msg: "User not found"});
-        res.json(results[0]);
+        res.json(idAlbum);        
     });
+
+    con
 };
 
 module.exports = {
