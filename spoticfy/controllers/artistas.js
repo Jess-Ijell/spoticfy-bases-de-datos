@@ -47,30 +47,17 @@ const getAlbumesByArtista = (req, res) => {
         res.send(idart);
     });
 
-    connection.query("SELECT * FROM albumes WHERE artista = ?"), [parseInt(idart)], (err, results) => {
+    connection.query("SELECT * FROM albumes WHERE artista = ?"), [parseint(req.params.id)], (err, results) => {
         if (err) return console.error(err.message);
         res.json(results);
     }
 };
 
 const getCancionesByArtista = (req, res) => {
-    const idart;
-    const idalbum;
-    
-    connection.query("SELECT id FROM aristas WHERE nombre = ?", [req.params.nombre], (err, idart) => {
+    connection.query("SELECT * FROM canciones LEFT join albumes ON canciones.album = albumes.id WHERE albumes.artista = ?", [parseInt(req.params.id)], (err, results) => {
         if (err) return console.error(err.message);
-        res.send(idart);
-        });
-
-        connection.query("SELECT id FROM albumes WHERE artista = ?", [parseInt(idart)], (err, idalbum) => {
-            if (err) return console.error(err.message);
-            res.json(idalbum);
-        });
-
-        connection.query("SELECT * FROM canciones WHERE album = ?", [parseInt(idalbum)], (err, results) => {
-            if (err) return console.error(err.message);
-            res.json(results);
-        });
+        res.json(results);
+    });
 };
 
 module.exports = {

@@ -23,7 +23,7 @@ app.post("/artistas", artistas.createArtista);
 
 app.put("/artistas", artistas.updateArtista);
 
-app.post("/artistas", artistas.deleteArtista);
+app.delete("/artistas", artistas.deleteArtista);
 
 app.get("/artistas", artistas.getAlbumesByArtista);
 
@@ -38,7 +38,7 @@ app.post("/albumes", albumes.createAlbum);
 
 app.put("/albumes", albumes.updateAlbum);
 
-app.post("/albumes", albumes.deleteAlbum);
+app.delete("/albumes", albumes.deleteAlbum);
 
 app.get("/albumes", albumes.getCancionesByAlbum);
 
@@ -51,7 +51,7 @@ app.post("/canciones", canciones.createCancion);
 
 app.post("/canciones", canciones.updateCancion);
 
-app.post("/canciones", canciones.deleteCancion);
+app.delete("/canciones", canciones.deleteCancion);
 
 app.put("/canciones", canciones.reproducirCancion);
 

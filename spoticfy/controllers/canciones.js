@@ -41,18 +41,10 @@ const deleteCancion = (req, res) => {
 };
 
 const reproducirCancion = (req, res) => {
-    reps = 0
-    connection.query("SELECT reproducciones WHERE nombre = ?", [req.params.nombre], (err, reps) => {
-        if (err) return console.error(err.message);
-        res.json({
-            reps = reps + 1,
-        });
-    }); 
-    
-    connection.query("UPDATE reproducción WHERE nombre = ?", [reps], (err, results) => {
+    connection.query("UPDATE canciones SET deracion = duracion + 1 WHERE nombre = ?", [req.params.nombre], (err, reps) => {
         if (err) return console.error(err.message);
         res.json(results);
-    });
+    });     
 };
 
 module.exports = {

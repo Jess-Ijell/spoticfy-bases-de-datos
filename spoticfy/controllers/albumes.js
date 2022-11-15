@@ -40,12 +40,10 @@ const deleteAlbum = (req, res) => {
 };
 
 const getCancionesByAlbum = (req, res) => {
-    connection.query("SELECT id FROM albums WHERE nombre = ?", [req.params.nombre], (err, idAlbum) => {
+    connection.query("SELECT * FROM canciones WHERE album = ?", [req.params.id], (err, idAlbum) => {
         if (err) return console.error(err.message);
-        res.json(idAlbum);        
+        res.json(result);        
     });
-
-    con
 };
 
 module.exports = {
