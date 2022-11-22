@@ -1,4 +1,4 @@
-const conn = require("../db");
+const connection = require("../db");
 
 const getArtistas = (_, res) => {
     connection.query("SELECT * FROM artistas", (err, results) => {
@@ -8,7 +8,7 @@ const getArtistas = (_, res) => {
 };
 
 const getArtista = (req, res) => {
-    connection.query("SELECT * FROM artistas WHERE id = ? AND nombre = ?", [parseInt(req.params.id), req.params.nombre], (err, results) => {
+    connection.query("SELECT * FROM artistas WHERE id = ?", [parseInt(req.params.id)], (err, results) => {
         if (err) return console.error(err.message);
         if(results.length === 0) return res.status(404).json({msg: "User not found"});
         res.json(results[0]);
@@ -26,35 +26,28 @@ const createArtista = (req, res) => {
 };
 
 const updateArtista = (req, res) => {
-    connection.query("UPDATE cancion WHERE id = ?", [req.params.i], (err, results) => {
+    connection.query("UPDATE artistas SET nombre = ? WHERE id = ?", [req.body.nombre, parseInt(req.params.id)], (err, results) => {
         if (err) return console.error(err.message);
         res.json(results)
     }); 
 };
 
 const deleteArtista = (req, res) => {
-    connection.query("DELETE FROM artistas WHERE nombre = ?", [req.body.nombre], (err, results) => {
+    connection.query("DELETE FROM artistas WHERE id = ?", [req.params.id], (err, results) => {
         if (err) return console.error(err.message);
         res.json(results);
     });
 };
 
 const getAlbumesByArtista = (req, res) => {
-    const idart
-
-    connection.query("SELECT id FROM aristas WHERE nombre = ?", [req.params.nombre], (err, idart) => {
+    connection.query("SELECT * FROM albumes WHERE artista = ?", [req.params.id], (err, results) => {
         if (err) return console.error(err.message);
-        res.send(idart);
+        res.send(results);
     });
-
-    connection.query("SELECT * FROM albumes WHERE artista = ?"), [parseint(req.params.id)], (err, results) => {
-        if (err) return console.error(err.message);
-        res.json(results);
-    }
 };
 
 const getCancionesByArtista = (req, res) => {
-    connection.query("SELECT * FROM canciones LEFT join albumes ON canciones.album = albumes.id WHERE albumes.artista = ?", [parseInt(req.params.id)], (err, results) => {
+    connection.query("SELECT * FROM canciones LEFT JOIN albumes ON canciones.album = albumes.id WHERE albumes.artista = ?", [parseInt(req.params.id)], (err, results) => {
         if (err) return console.error(err.message);
         res.json(results);
     });

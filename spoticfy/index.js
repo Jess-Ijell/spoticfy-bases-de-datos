@@ -17,43 +17,43 @@ app.get("/", (_, res) => {
 // Artistas
 app.get("/artistas", artistas.getArtistas);
 
-app.get("/artistas", artistas.getArtista);
+app.get("/artistas/:id", artistas.getArtista);
 
 app.post("/artistas", artistas.createArtista);
 
-app.put("/artistas", artistas.updateArtista);
+app.put("/artistas/:id", artistas.updateArtista);
 
-app.delete("/artistas", artistas.deleteArtista);
+app.delete("/artistas/:id", artistas.deleteArtista);
 
-app.get("/artistas", artistas.getAlbumesByArtista);
+app.get("/artistas/:id/albumes", artistas.getAlbumesByArtista);
 
-app.get("/artistas", artistas.getCancionesByArtista);
+app.get("/artistas/:id/canciones", artistas.getCancionesByArtista);
 
 // Albumes
 app.get("/albumes", albumes.getAlbumes);
 
-app.get("/albumes", albumes.getAlbum);
+app.get("/albumes/:id", albumes.getAlbum);
 
 app.post("/albumes", albumes.createAlbum);
 
-app.put("/albumes", albumes.updateAlbum);
+app.put("/albumes/:id", albumes.updateAlbum);
 
 app.delete("/albumes", albumes.deleteAlbum);
 
-app.get("/albumes", albumes.getCancionesByAlbum);
+app.get("/albumes:id/canciones", albumes.getCancionesByAlbum);
 
 // Canciones
 app.get("/canciones", canciones.getCanciones);
 
-app.get("/canciones", canciones.getCancion);
+app.get("/canciones/:id", canciones.getCancion);
 
 app.post("/canciones", canciones.createCancion);
 
-app.post("/canciones", canciones.updateCancion);
+app.put("/canciones/:id", canciones.updateCancion);
 
-app.delete("/canciones", canciones.deleteCancion);
+app.delete("/canciones/:id", canciones.deleteCancion);
 
-app.put("/canciones", canciones.reproducirCancion);
+app.put("/canciones/:id", canciones.reproducirCancion);
 
 
 app.listen(port, () => {
