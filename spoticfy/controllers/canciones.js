@@ -8,7 +8,7 @@ const getCanciones = (_, res) => {
 };
 
 const getCancion = (req, res) => {
-    connection.query("SELECT * FROM canciones WHERE id = ", [parseInt(req.params.id)], (err, results) => {
+    connection.query("SELECT canciones.id, canciones.nombre, canciones.duracion, canciones.reproducciones, artistas.nombre AS nombre_artista, albumes.nombre AS nombre_album FROM canciones INNER JOIN albumes ON canciones.album = albumes.id INNER JOIN artistas ON artistas.id = albumes.artista WHERE canciones.id = ?", [parseInt(req.params.id)], (err, results) => {
         if (err) return console.error(err.message);
         if(results.length === 0) return res.status(404).json({msg: "Song not found"});
         res.json(results[0]);
