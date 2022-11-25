@@ -17,7 +17,7 @@ const getCancion = (req, res) => {
 
 const createCancion = (req, res) => {
     const rep = 0;
-    connection.query("INSERT INTO canciones (nombre, album, duracion, reproducciones), VALUES (?, ?, ?, ?)", [req.body.nombre, req.body.album, req.body.duracuin, rep], (err, results) => {
+    connection.query("INSERT INTO canciones (canciones.nombre, canciones.album, canciones.duracion, canciones.reproducciones) VALUES (?, ?, ?, 0)", [req.body.nombre, req.body.album, req.body.duracuin, rep], (err, results) => {
         if (err) return console.error(err.message);
         res.json({
             id: results.insertId,
