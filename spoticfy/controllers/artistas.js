@@ -16,7 +16,7 @@ const getArtista = (req, res) => {
 };
 
 const createArtista = (req, res) => {
-    connection.query("INSERT INTO artistas (nombre), VALUES (?)", [req.body.nombre], (err, results) => {
+    connection.query("INSERT INTO artistas (nombre) VALUES (?)", [req.body.nombre], (err, results) => {
         if (err) return console.error(err.message);
         res.json({
             id: results.insertId,

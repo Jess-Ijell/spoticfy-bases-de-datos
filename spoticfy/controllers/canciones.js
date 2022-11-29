@@ -17,7 +17,7 @@ const getCancion = (req, res) => {
 
 const createCancion = (req, res) => {
     const rep = 0;
-    connection.query("INSERT INTO canciones (canciones.nombre, canciones.album, canciones.duracion, canciones.reproducciones) VALUES (?, ?, ?, 0)", [req.body.nombre, req.body.album, req.body.duracuin, rep], (err, results) => {
+    connection.query("INSERT INTO canciones (canciones.nombre, canciones.album, canciones.duracion, canciones.reproducciones) VALUES (?, ?, ?, 0)", [req.body.nombre, req.body.album, req.body.duracion, rep], (err, results) => {
         if (err) return console.error(err.message);
         res.json({
             id: results.insertId,
@@ -27,7 +27,7 @@ const createCancion = (req, res) => {
 };
 
 const updateCancion = (req, res) => {
-    connection.query("UPDATE canciones SET nombre = ? album = ?, duracion = ? WHERE id = ?", [req.body.nombre, req.body.album, parseInt(req.body.duracion), req.params.id], (err, results) => {
+    connection.query("UPDATE canciones SET nombre = ?, album = ?, duracion = ? WHERE id = ?", [req.body.nombre, req.body.album, parseInt(req.body.duracion), req.params.id], (err, results) => {
         if (err) return console.error(err.message);
         res.json(results)
     }); 
@@ -41,7 +41,7 @@ const deleteCancion = (req, res) => {
 };
 
 const reproducirCancion = (req, res) => {
-    connection.query("UPDATE canciones SET canciones.duracion = canciones.duracion + 1 WHERE id = ?", [req.params.id], (err, reps) => {
+    connection.query("UPDATE canciones SET reproducciones = reproducciones + 1 WHERE id = ?", [req.params.id], (err, results) => {
         if (err) return console.error(err.message);
         res.json(results);
     });     

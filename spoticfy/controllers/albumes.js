@@ -16,7 +16,7 @@ const getAlbum = (req, res) => {
 };
 
 const createAlbum = (req, res) => {
-    connection.query("INSERT INTO albumes (nombre, artista), VALUES (?, ?)", [req.body.nombre, parseInt(req.body.artista)], (err, results) => {
+    connection.query("INSERT INTO albumes (nombre, artista) VALUES (?, ?)", [req.body.nombre, parseInt(req.body.artista)], (err, results) => {
         if (err) return console.error(err.message);
         res.json({
             id: results.insertId,
@@ -33,14 +33,14 @@ const updateAlbum = (req, res) => {
 };
 
 const deleteAlbum = (req, res) => {
-    connection.query("DELETE * FROM albumes WHERE nombre = ?", [req.body.nombre], (err, results) => {
+    connection.query("DELETE FROM albumes WHERE id = ?", [req.params.id], (err, results) => {
         if (err) return console.error(err.message);
         res.json(results);
     });
 };
 
 const getCancionesByAlbum = (req, res) => {
-    connection.query("SELECT canciones.id, canciones.nombre, canciones.duracion, canciones.reproducciones, artistas.nombre AS nombre_artista, albumes.nombre AS nombre_album FROM canciones INNER JOIN albumes ON canciones.album = albumes.id INNER JOIN artistas ON artistas.id = albumes.artista WHERE albumes.id = ?", [parseInt(req.params.id)], (err, idAlbum) => {
+    connection.query("SELECT canciones.id, canciones.nombre, canciones.duracion, canciones.reproducciones, artistas.nombre AS nombre_artista, albumes.nombre AS nombre_album FROM canciones INNER JOIN albumes ON canciones.album = albumes.id INNER JOIN artistas ON artistas.id = albumes.artista WHERE albumes.id = ?", [req.params.id], (err, result) => {
         if (err) return console.error(err.message);
         res.json(result);        
     });
